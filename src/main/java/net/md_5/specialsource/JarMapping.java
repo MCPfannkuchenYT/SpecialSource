@@ -52,6 +52,7 @@ public class JarMapping {
     public final Map<String, String> classes = new HashMap<String, String>();
     public final Map<String, String> fields = new HashMap<String, String>();
     public final Map<String, String> methods = new HashMap<String, String>();
+    public final Map<String, String> params = new HashMap<String, String>();
     private InheritanceMap inheritanceMap = new InheritanceMap();
     private InheritanceProvider fallbackInheritanceProvider = null;
     private Set<String> excludedPackages = new HashSet<String>();
@@ -655,6 +656,8 @@ public class JarMapping {
             }
 
             methods.put(oldEntry, newMethodName);
+        } else if (kind.equals("PM:")) {
+        	params.put(tokens[1], tokens[2]);
         } else {
             throw new IllegalArgumentException("Unable to parse srg file, unrecognized mapping type in line=" + line);
         }

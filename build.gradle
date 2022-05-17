@@ -1,0 +1,39 @@
+plugins {
+	// Apply Gradle Java Plugin for the gradle plugin
+	id 'java-library'
+	// Add maven plugin for publishing
+	id 'maven-publish'
+}
+
+sourceCompatibility = targetCompatibility = 1.8
+
+// Repositories for dependencies
+repositories {
+	mavenCentral()
+}
+
+// Dependencies
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+	implementation 'org.ow2.asm:asm-commons:9.1'
+	implementation 'net.sf.jopt-simple:jopt-simple:4.9'
+	implementation 'com.google.guava:guava:20.0'
+	implementation 'com.opencsv:opencsv:4.4'
+}
+
+group = 'de.pfannekuchen'
+version = '1.11.1'
+archivesBaseName = 'specialsource'
+
+// Publishing
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+        	groupId = project.group
+        	version = project.version
+        	artifactId = project.archivesBaseName
+            from components.java
+        }
+    }
+}

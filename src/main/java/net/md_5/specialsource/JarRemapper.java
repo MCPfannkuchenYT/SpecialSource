@@ -175,7 +175,7 @@ public class JarRemapper extends CustomRemapper {
     }
 
     public void remapJar(Jar jar, File target) throws IOException {
-        remapJar(jar, target, Collections.EMPTY_SET);
+        remapJar(jar, target, Collections.emptySet());
     }
 
     /**
@@ -272,7 +272,6 @@ public class JarRemapper extends CustomRemapper {
         return remapClassFile(new ClassReader(in), repo);
     }
 
-    @SuppressWarnings("unchecked")
     private byte[] remapClassFile(ClassReader reader, final ClassRepo repo) {
         if (preProcessor != null) {
             byte[] pre = preProcessor.process(reader);

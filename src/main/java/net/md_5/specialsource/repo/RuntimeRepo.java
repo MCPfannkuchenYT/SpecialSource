@@ -28,7 +28,6 @@
  */
 package net.md_5.specialsource.repo;
 
-import java.io.IOException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -57,7 +57,8 @@ public class SpecialSource {
     public static String identifier = null;
     public static boolean stable = false;
 
-    public static void main(String[] args) throws Exception {
+    @SuppressWarnings("unchecked")
+	public static void main(String[] args) throws Exception {
         OptionParser parser = new OptionParser() {
             {
                 acceptsAll(asList("?", "help"), "Show the help");
@@ -241,7 +242,6 @@ public class SpecialSource {
             String outShadeRelocation = (String) options.valueOf("out-shade-relocation");
 
             // Load each mapping
-            @SuppressWarnings("unchecked")
             List<String> filenames = (List<String>) options.valuesOf("srg-in");
             for (String filename : filenames) {
                 jarMapping.loadMappings(filename, reverse, numeric, inShadeRelocation, outShadeRelocation);
@@ -283,7 +283,6 @@ public class SpecialSource {
         }
 
         if (options.has("in-jar") && options.has("out-jar")) {
-            @SuppressWarnings("unchecked")
             List<String> filenames = (List<String>) options.valuesOf("in-jar");
             List<File> files = new ArrayList<File>();
             for (String filename : filenames) {

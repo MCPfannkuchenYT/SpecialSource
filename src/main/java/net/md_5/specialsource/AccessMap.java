@@ -161,7 +161,6 @@ public class AccessMap {
     }
 
     public int applyClassAccess(String className, int access) {
-        int old = access;
 
         access = apply("**", access);
         access = apply("*", access);
@@ -172,7 +171,6 @@ public class AccessMap {
     }
 
     public int applyFieldAccess(String className, String fieldName, int access) {
-        int old = access;
 
         access = apply("**", access);
         access = apply("*/*", access);
@@ -184,7 +182,6 @@ public class AccessMap {
     }
 
     public int applyMethodAccess(String className, String methodName, String methodDesc, int access) {
-        int old = access;
 
         access = apply("**", access);
         access = apply("*/* ()", access);

@@ -30,12 +30,9 @@ package net.md_5.specialsource.provider;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -47,7 +44,6 @@ public class ClassLoaderProvider implements InheritanceProvider {
     private final ClassLoader classLoader;
 
     @Override
-    @SuppressWarnings("unchecked")
     public Collection<String> getParents(String owner) {
         // TODO: ToInternalName
         String ownerInternalName = owner.replace('.', '/').concat(".class");

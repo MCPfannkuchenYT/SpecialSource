@@ -37,7 +37,6 @@ import org.objectweb.asm.tree.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * "Pre-process" a class file, intended to be used before remapping with
@@ -102,7 +101,6 @@ public class RemapperProcessor {
         remapReflectClass = b;
     }
 
-    @SuppressWarnings("unchecked")
     public byte[] process(ClassReader classReader) {
         byte[] bytecode = null;
         ClassNode classNode = new ClassNode();

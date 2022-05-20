@@ -30,7 +30,6 @@ package net.md_5.specialsource;
 
 import java.lang.reflect.Modifier;
 import java.util.Collection;
-import java.util.Map;
 import net.md_5.specialsource.provider.InheritanceProvider;
 import net.md_5.specialsource.provider.JarProvider;
 import net.md_5.specialsource.repo.ClassRepo;

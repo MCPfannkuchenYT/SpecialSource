@@ -70,6 +70,11 @@ public class RepoRemapper extends CustomRemapper {
     public String mapFieldName(String owner, String name, String desc, int access) {
         return remapper.mapFieldName(owner, name, desc, access);
     }
+    
+    @Override
+    public String mapLocalVariable(String owner, String desc, int index) {
+    	return remapper.mapLocalVariable(owner, desc, index);
+    }
 
     private int findAccess(NodeType type, String owner, String name, String desc, ClassRepo repo) {
         int access = -1;

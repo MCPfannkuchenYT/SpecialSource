@@ -52,7 +52,8 @@ public class JarMapping {
     public final Map<String, String> classes = new HashMap<String, String>();
     public final Map<String, String> fields = new HashMap<String, String>();
     public final Map<String, String> methods = new HashMap<String, String>();
-    public final Map<String, String> params = new HashMap<String, String>();
+    public final Map<String, String[]> vars = new HashMap<String, String[]>();
+    public final Map<String, String> renames = new HashMap<String, String>();
     private InheritanceMap inheritanceMap = new InheritanceMap();
     private InheritanceProvider fallbackInheritanceProvider = null;
     private Set<String> excludedPackages = new HashSet<String>();
@@ -615,6 +616,10 @@ public class JarMapping {
             }
 
             fields.put(oldEntry, newFieldName);
+        } else if (kind.equals("VM:")) {
+        	vars.put(tokens[1], tokens[2].split(","));
+        } else if (kind.equals("RN:")) {
+        	renames.put(tokens[1], tokens[2]);
         } else if (kind.equals("MD:")) {
             String oldFull = tokens[1];
             String newFull = tokens[3];
@@ -651,13 +656,12 @@ public class JarMapping {
 
             String oldEntry = oldClassName + "/" + oldMethodName + " " + oldMethodDescriptor;
             if (methods.containsKey(oldEntry) && !newMethodName.equals(methods.get(oldEntry))) {
-                throw new IllegalArgumentException("Duplicate method mapping: " + oldEntry + " ->" + newMethodName
-                        + " but already mapped to " + methods.get(oldEntry) + " in line=" + line);
+//                throw new IllegalArgumentException("Duplicate method mapping: " + oldEntry + " ->" + newMethodName
+//                        + " but already mapped to " + methods.get(oldEntry) + " in line=" + line);
+            } else {
+            	methods.put(oldEntry, newMethodName);
             }
 
-            methods.put(oldEntry, newMethodName);
-        } else if (kind.equals("PM:")) {
-        	params.put(tokens[1], tokens[2]);
         } else {
             throw new IllegalArgumentException("Unable to parse srg file, unrecognized mapping type in line=" + line);
         }

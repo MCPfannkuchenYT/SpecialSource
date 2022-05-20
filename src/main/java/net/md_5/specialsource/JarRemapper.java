@@ -134,6 +134,14 @@ public class JarRemapper extends CustomRemapper {
         return null;
     }
 
+    @Override
+    public String mapLocalVariable(String owner, String desc, int index) {
+   		for (String entry : jarMapping.vars.getOrDefault(owner, new String[0]))
+   			if (entry.split("_")[2].equals(index + ""))
+   				return jarMapping.renames.getOrDefault(entry, entry);
+    	return super.mapLocalVariable(owner, desc, index);
+    }
+    
     private static boolean matchClassPackage(String packageName, String className) {
         if (packageName.equals(".")) {
             return isDefaultPackage(className);

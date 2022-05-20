@@ -29,6 +29,14 @@
 
 package net.md_5.specialsource;
 
+import org.objectweb.asm.Attribute;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.commons.ClassRemapper;
+import org.objectweb.asm.commons.FieldRemapper;
+
 /***
  * ASM: a very small and fast Java bytecode manipulation framework
  * Copyright (c) 2000-2011 INRIA, France Telecom
@@ -60,16 +68,10 @@ package net.md_5.specialsource;
  */
 
 import com.google.common.base.Preconditions;
+
 import lombok.Setter;
 import net.md_5.specialsource.repo.ClassRepo;
 import net.md_5.specialsource.writer.LogWriter;
-import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.commons.ClassRemapper;
-import org.objectweb.asm.commons.FieldRemapper;
 
 public class RemappingClassAdapter extends ClassRemapper {
 
@@ -163,6 +165,8 @@ public class RemappingClassAdapter extends ClassRemapper {
         throw new UnsupportedOperationException("Not implemented");
     }
 
+    public static int i = 0;
+    
     protected MethodVisitor createMethodRemapper(MethodVisitor mv, final String oldDesc, final String oldName, final String newName) {
         return new UnsortedRemappingMethodAdapter(mv, remapper, repo) {
             @Override
@@ -179,7 +183,12 @@ public class RemappingClassAdapter extends ClassRemapper {
 
             @Override
             public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-                if (!SpecialSource.kill_lvt) {
+            	if (name.equals("this")) {
+            		super.visitLocalVariable(name, desc, signature, start, end, index);
+            		return;
+            	}
+            	name = remapper.mapLocalVariable(remapper.map(className) + "." + newName, remapper.mapDesc(desc), index);
+            	if (!SpecialSource.kill_lvt) {
                     super.visitLocalVariable(name, desc, signature, start, end, index);
                 }
             }
@@ -191,8 +200,8 @@ public class RemappingClassAdapter extends ClassRemapper {
             public void visitLineNumber(int line, Label start) {
                 startLine = Math.min(startLine, line);
                 endLine = Math.max(endLine, line);
-
                 super.visitLineNumber(line, start);
+                
             }
 
             @Override

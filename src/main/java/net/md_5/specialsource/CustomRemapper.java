@@ -54,6 +54,35 @@ public abstract class CustomRemapper extends Remapper {
         return name;
     }
 
+    public String mapLocalVariable(String owner, String desc, int index) {
+    	switch (desc.charAt(0)) {
+		case 'B':
+			return "b" + index;
+		case 'C':
+			return "c" + index;
+		case 'D':
+			return "d" + index;
+		case 'F':
+			return "f" + index;
+		case 'I':
+			return "i" + index;
+		case 'J':
+			return "l" + index;
+		case 'L':
+			String[] parts = owner.split("/");
+			String name = parts[parts.length-1];
+			return name.substring(0, 2).toLowerCase() + name.substring(1) + index;
+		case 'S':
+			return "s" + index;
+		case 'Z':
+			return "bl" + index;
+		case '[':
+			return mapLocalVariable(owner, desc.substring(1), index);
+		default: 
+			throw new RuntimeException("Invalid descriptor found: " + desc);
+		}
+    }
+    
     @Override
     public String mapSignature(String signature, boolean typeSignature) {
         // JDT decorates some lambdas with this and SignatureReader chokes on it
